@@ -91,9 +91,7 @@ proc openFile { } {
     global io
     set ret 1
     if $io(useFile) {
-      if ![file exists $io(dir)] {
-        set io(ch) [open $io(dir) w]
-      } elseif [file writable $io(dir)] {
+      if { ![file exists $io(dir)] || [file writable $io(dir)] } {
         set io(ch) [open $io(dir) w]
       } else {
         return -code error "Could not open $io(dir) for writing"
