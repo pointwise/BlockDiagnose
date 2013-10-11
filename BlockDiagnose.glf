@@ -88,17 +88,17 @@ proc browseFile {} {
 # Open the report file for writing
 
 proc openFile { } {
-  global io
-  set ret 1
-  if $io(useFile) {
-    if [file writable $io(dir)] {
-      set io(ch) [open $io(dir) w]
+    global io
+    set ret 1
+    if $io(useFile) {
+      if { ![file exists $io(dir)] || [file writable $io(dir)] } {
+        set io(ch) [open $io(dir) w]
+      } else {
+        return -code error "Could not open $io(dir) for writing"
+      }
     } else {
-      return -code error "Could not open $io(dir) for writing"
+      set io(ch) "stdout"
     }
-  } else {
-    set io(ch) "stdout"
-  }
 }
 
 # --------------------------------------------------------------------------
